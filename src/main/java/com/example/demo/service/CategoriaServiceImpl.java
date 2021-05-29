@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dominio.Categoria;
 import com.example.demo.dominio.Livro;
+import com.example.demo.exception.ObjectNotFound;
 import com.example.demo.repository.CategoriaRepository;
 import com.example.demo.repository.LivroRepository;
 
@@ -46,7 +47,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public Categoria pesquisarPorId(Integer id) {
 		Optional<Categoria> obj = categoriaRepository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFound("Categoria não encontrada"));
 	}
 
 }
