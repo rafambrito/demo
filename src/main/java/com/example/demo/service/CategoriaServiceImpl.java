@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,17 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public Categoria pesquisarPorId(Integer id) {
 		Optional<Categoria> obj = categoriaRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFound("Categoria não encontrada"));
+	}
+
+	@Override
+	public List<Categoria> pesquisarTodos() {
+		return this.categoriaRepository.findAll();
+	}
+
+	@Override
+	public Categoria incluir(Categoria categoria) {
+		categoria.setId(null);
+		return this.categoriaRepository.save(categoria);
 	}
 
 }
