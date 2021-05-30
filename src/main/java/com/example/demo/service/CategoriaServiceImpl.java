@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dominio.Categoria;
 import com.example.demo.dominio.Livro;
+import com.example.demo.dto.CategoriaDTO;
 import com.example.demo.exception.ObjectNotFound;
 import com.example.demo.repository.CategoriaRepository;
 import com.example.demo.repository.LivroRepository;
@@ -60,6 +62,26 @@ public class CategoriaServiceImpl implements CategoriaService {
 	public Categoria incluir(Categoria categoria) {
 		categoria.setId(null);
 		return this.categoriaRepository.save(categoria);
+	}
+
+	@Override
+	public Categoria atualizar(Integer id, CategoriaDTO objIn) {
+		Categoria obj = pesquisarPorId(id);
+		obj.setNome(objIn.getNome());
+		obj.setDescricao(objIn.getDescricao());
+		return this.categoriaRepository.save(obj);
+	}
+
+	@Override
+	public void deletar(Integer id) {
+		Categoria obj = pesquisarPorId(id);
+		
+		try {
+			this.categoriaRepository.delete(obj);
+		} catch (DataIntegrityViolationException e) {
+			throw new com.example.demo.exception.DataIntegrityViolationException("Categoria não pode ser deletada!");
+		}
+				
 	}
 
 }

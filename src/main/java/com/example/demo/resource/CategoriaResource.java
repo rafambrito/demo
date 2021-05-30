@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +45,19 @@ public class CategoriaResource {
 		categoria = this.categoriaService.incluir(categoria);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<CategoriaDTO> atualizar(@PathVariable Integer id, @RequestBody CategoriaDTO objIn){
+		Categoria objOut = this.categoriaService.atualizar(id, objIn);
+		return ResponseEntity.ok().body(new CategoriaDTO(objOut));
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletar(@PathVariable Integer id){
+		this.categoriaService.deletar(id);
+		return ResponseEntity.noContent().build();
+		
 	}
 	
 }
