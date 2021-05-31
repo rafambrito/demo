@@ -61,7 +61,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 	@Override
 	public Categoria incluir(Categoria categoria) {
 		categoria.setId(null);
-		return this.categoriaRepository.save(categoria);
+		
+		try {
+			return this.categoriaRepository.save(categoria);
+		} catch (DataIntegrityViolationException e) {
+			throw new com.example.demo.exception.DataIntegrityViolationException("Categoria não pode ser incluída!");
+		}
+		
 	}
 
 	@Override
@@ -69,7 +75,12 @@ public class CategoriaServiceImpl implements CategoriaService {
 		Categoria obj = pesquisarPorId(id);
 		obj.setNome(objIn.getNome());
 		obj.setDescricao(objIn.getDescricao());
-		return this.categoriaRepository.save(obj);
+		
+		try {
+			return this.categoriaRepository.save(obj);
+		} catch (DataIntegrityViolationException e) {
+			throw new com.example.demo.exception.DataIntegrityViolationException("Categoria não pode ser atualizada!");
+		}
 	}
 
 	@Override

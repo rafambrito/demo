@@ -1,15 +1,15 @@
 package com.example.demo.exception;
 
-public class StandardException {
+public class StandardError {
 	private Long timestamp;
 	private Integer status;
 	private String msg;
 	
-	public StandardException() {
+	public StandardError() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public StandardException(Long timestamp, Integer status, String msg) {
+	public StandardError(Long timestamp, Integer status, String msg) {
 		super();
 		this.timestamp = timestamp;
 		this.status = status;
